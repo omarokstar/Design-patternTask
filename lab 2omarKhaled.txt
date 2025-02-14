@@ -1,0 +1,95 @@
+1-  Imagine that you’re creating a text editor app. In addition to simple text editing, your editor can format text, insert inline images, etc
+	At some point, you decided to let users undo any operations carried out on the text. This feature has become so common over the
+	years that nowadays people expect every app to have it.
+
+Answer: Using Memento pattern as we are capturing every edit and storing it for short term so the user can undo any operation
+
+class Memento
+    Variable content
+    Method Constructor(content)
+        Set this.content = content
+    Method getContent()
+        return content
+
+class TextEditor
+    variable content
+    Method Constructor()
+        Set content = ""
+
+    Method type(text)
+        Append text to content
+
+    Method save()
+        return new Memento(content) 
+
+    Method restore(memento)
+        Set content = memento.getContent() 
+
+    Method show()
+        Print "Current Content: " + content
+
+class History
+    Variable historyList
+    Method Constructor()
+        Set historyList as an empty list
+
+    Method push(memento)
+        Add memento to historyList
+
+    Method pop()
+        if historyList is not empty then
+            return last saved memento
+        else
+            return NULL
+
+
+
+
+
+2-  Imagine that you have two types of objects: a Customer and a Store . The customer is very interested in a particular brand of
+	product (say, it’s a new model of the iPhone) which should become available in the store very soon.The customer could visit the
+	store every day and check product availability. But while the product is still en route, most of these trips would be pointless
+
+
+Answer: Using Observer pattern as here we have customer waiting for the launche of the product 
+        and we want to notify all of them when the product is available
+
+class Store
+    variable customers = []
+    variable productAvailable = false
+
+    method subscribe(customer)
+        add customer to customers list
+
+    method unsubscribe(customer)
+        remove customer from customers list
+
+    method setProductAvailable()
+        set productAvailable = true
+        notifyCustomers()
+
+    METHOD notifyCustomers()
+        foreach customer in customers
+            call customer.update()
+
+class Customer
+    variable name
+
+    method Constructor(name)
+        set this.name = name
+
+    mehtod update()
+        Print "Product is now available!"
+
+
+create store as new Store()
+
+create customer1 as new Customer("Omar")
+create customer2 as new Customer("Khaled")
+
+store.subscribe(customer1)
+store.subscribe(customer2)
+
+Print "Product is not available yet."
+
+store.setProductAvailable() 
